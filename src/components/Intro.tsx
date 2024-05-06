@@ -28,7 +28,7 @@ export function Intro() {
     return (
         <motion.div
             ref={scrollRef}
-            className="w-full relative h-[180rem] flex items-center justify-center bg-transparent text-white "
+            className="w-full relative h-[180rem] flex items-center justify-center bg-transparent text-white pointer-events-none"
         >
             <motion.div
                 initial={"hidden"}
@@ -77,7 +77,7 @@ function ScrollingList({ progress }: ListProps) {
 
     return (
         <div
-            className="w-full h-[5rem] overflow-hidden relative"
+            className="w-full h-[5rem] overflow-hidden relative pointer-events-none"
             style={{
                 WebkitMaskImage:
                     "-webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%,  rgba(0,0,0,0) )",
