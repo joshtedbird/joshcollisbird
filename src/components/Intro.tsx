@@ -1,51 +1,53 @@
 import {
+    AnimatePresence,
     MotionValue,
-    clamp,
     easeInOut,
     motion,
-    spring,
-    useAnimate,
     useInView,
     useScroll,
-    useSpring,
     useTransform,
 } from "framer-motion"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 
 export function Intro() {
-    const scrollRef = useRef(null!)
+    const scrollRef = useRef(null)!
     const { scrollYProgress } = useScroll({
         target: scrollRef,
     })
-
-    const opacity = useTransform(scrollYProgress, [0, 0.92, 1], [1, 1, 0])
+    const isInView = useInView(scrollRef, { margin: "-100% 0px 0px 0px" })
 
     const variants = {
-        hidden: { opacity: 0, transform: "translate(-50%, calc(-50% + 30px))" },
+        in: { opacity: 0, transform: "translate(-50%, calc(-50% + 30px))" },
         visible: { opacity: 1, transform: "translate(-50%, -50%)" },
+        out: { opacity: 0, transform: "translate(-50%, calc(-50% - 30px))" },
     }
 
     return (
         <motion.div
+            id="scrollbox"
             ref={scrollRef}
             className="w-full relative h-[180rem] flex items-center justify-center bg-transparent text-white pointer-events-none"
         >
-            <motion.div
-                initial={"hidden"}
-                animate={"visible"}
-                style={{ opacity }}
-                variants={variants}
-                transition={{ duration: 1 }}
-                className="flex flex-col items-end z-20 fixed top-[50vh] left-[50vw] text-[3.4rem] w-[85%] lg:w-auto"
-            >
-                <h1 className="uppercase font-black  pointer-events-none select-none leading-[3.5rem] ">
-                    {"Josh"}
-                </h1>
-                <h1 className="uppercase font-black pointer-events-none select-none leading-[3.5rem]">
-                    {"collis-bird"}
-                </h1>
-                <ScrollingList progress={scrollYProgress} />
-            </motion.div>
+            <AnimatePresence>
+                {isInView && (
+                    <motion.div
+                        initial={"in"}
+                        animate={"visible"}
+                        exit={"out"}
+                        variants={variants}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="flex flex-col items-end z-20 fixed top-[50vh] left-[50vw] text-[3.4rem] w-[85%] lg:w-auto"
+                    >
+                        <h1 className="uppercase font-black  pointer-events-none select-none leading-[3.5rem] ">
+                            {"Josh"}
+                        </h1>
+                        <h1 className="uppercase font-black pointer-events-none select-none leading-[3.5rem]">
+                            {"collis-bird"}
+                        </h1>
+                        <ScrollingList progress={scrollYProgress} />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     )
 }
@@ -66,7 +68,9 @@ function ScrollingList({ progress }: ListProps) {
     ]
     const step = 1 / list.length
 
-    const [active, setActive] = useState(0)
+    const [active, setActive] = useState(
+        Math.round(progress.get() / step) * step
+    )
 
     useTransform(() => {
         let newProgress = Math.round(progress.get() / step) * step
@@ -84,6 +88,7 @@ function ScrollingList({ progress }: ListProps) {
             }}
         >
             <motion.div
+                initial={{ transform: `translateY(-${active * 100}%)` }}
                 animate={{ transform: `translateY(-${active * 100}%)` }}
                 transition={{ type: "spring", stiffness: 150, damping: 16 }}
                 className="flex flex-col items-end"
