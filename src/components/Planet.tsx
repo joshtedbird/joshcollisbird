@@ -102,8 +102,8 @@ function Project({ title, tags, children }: ProjectProps) {
                     </div>
                 </div>
                 <div className="project-tags flex gap-2 flex-wrap pr-4">
-                    {tags.map((t) => (
-                        <Tag name={t} />
+                    {tags.map((t, i) => (
+                        <Tag key={i} name={t} />
                     ))}
                 </div>
             </motion.div>

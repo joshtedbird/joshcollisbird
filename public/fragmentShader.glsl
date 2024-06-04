@@ -20,11 +20,11 @@ float star( vec2 uv , float flare , float rand ){
     return max( starLight , 0.0 );
 }
 
-vec3 starLayer( vec2 uv , float layerSeed ){
+vec4 starLayer( vec2 uv , float layerSeed ){
     vec2 id = floor(uv);
     vec2 gv = fract(uv);
     
-    vec3 col = vec3( 0 );
+    vec4 col = vec4( 0 );
     
     for( int y=-1; y<=1; y++ ) {
         for( int x=-1; x<=1; x++ ) {
@@ -37,7 +37,7 @@ vec3 starLayer( vec2 uv , float layerSeed ){
             
             float thisStar = star( starPos , smoothstep( .9 , 1.0, 1.0 ) , starRand  );
             
-            vec3 color = vec3(1.0, 1.0, 1.0);
+            vec4 color = vec4(1.0);
       
             
             col += thisStar * size * color;
@@ -55,7 +55,7 @@ void main() {
     float t = iTime * 0.5;
     
     float distFade = 1.0;
-    vec3 col = vec3( 0 );
+    vec4 col = vec4( 0 );
     for( float x = 0.0; x<1.0; x += 1.0/LAYERS){
         float depth = fract( x );
         float fade = depth;
@@ -67,5 +67,5 @@ void main() {
         col += starLayer( uv * scale + vec2(0, u_scroll * -2.0) , layerRand ) * fade;
     }
     
-    gl_FragColor = vec4(col, 1.0);
+    gl_FragColor = col;
 }}

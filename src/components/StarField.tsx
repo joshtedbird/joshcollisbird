@@ -2,7 +2,6 @@ import { useFrame, useThree } from "@react-three/fiber"
 import { useScroll } from "framer-motion"
 import { useMemo, useRef, useState } from "react"
 import { Vector2 } from "three"
-import { useStore } from "../lib/store"
 
 export function StarField({
     fragment,
@@ -14,7 +13,6 @@ export function StarField({
     const meshRef = useRef(null)
     const { viewport } = useThree()
 
-    const { revs } = useStore()
     const { scrollYProgress } = useScroll()
     const [scroll, setScroll] = useState(0)
 
@@ -29,7 +27,7 @@ export function StarField({
             meshRef.current.material.uniforms.iTime.value = time + 20
             //@ts-ignore
 
-            meshRef.current.material.uniforms.u_scroll.value = scroll + revs
+            meshRef.current.material.uniforms.u_scroll.value = scroll
         }
     })
 
@@ -58,8 +56,7 @@ export function StarField({
                 fragmentShader={fragment}
                 vertexShader={vertex}
                 uniforms={uniforms}
-                // transparent
-                depthTest={false}
+                transparent
             />
         </mesh>
     )
