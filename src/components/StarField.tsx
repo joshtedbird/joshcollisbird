@@ -1,7 +1,13 @@
 import { useFrame, useThree } from "@react-three/fiber"
 import { useScroll } from "framer-motion"
 import { useMemo, useRef, useState } from "react"
-import { Vector2 } from "three"
+import {
+    GreaterDepth,
+    LessDepth,
+    NeverCompare,
+    NeverDepth,
+    Vector2,
+} from "three"
 
 export function StarField({
     fragment,
@@ -50,13 +56,15 @@ export function StarField({
     )
 
     return (
-        <mesh ref={meshRef}>
+        <mesh ref={meshRef} renderOrder={1}>
             <planeGeometry args={[viewport.width, viewport.height]} />
             <shaderMaterial
                 fragmentShader={fragment}
                 vertexShader={vertex}
                 uniforms={uniforms}
-                transparent
+                depthTest={false}
+                // transparent
+                toneMapped={true}
             />
         </mesh>
     )

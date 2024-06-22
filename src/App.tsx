@@ -22,8 +22,8 @@ function App() {
     return (
         <div className="w-full flex flex-col font-body bg-black">
             <Intro />
-            {/* <Planet /> */}
-            {/* <Outro /> */}
+            <Planet />
+            <Outro />
 
             <Space />
         </div>

@@ -1,25 +1,47 @@
-import { Canvas, useFrame } from "@react-three/fiber"
+import { Canvas, ThreeElements, ThreeEvent, useFrame } from "@react-three/fiber"
 import { Physics, RigidBody, BallCollider } from "@react-three/rapier"
-import { Suspense, useEffect, useRef, useState } from "react"
-import { Vector3 } from "three"
+import { Bloom, EffectComposer } from "@react-three/postprocessing"
+import {
+    RefObject,
+    Suspense,
+    createRef,
+    useEffect,
+    useRef,
+    useState,
+} from "react"
+import { DoubleSide, Mesh, Vector3, Color } from "three"
 import axios from "axios"
 import { StarField } from "./StarField"
 import { Joshtronaut } from "../assets/Joshtronaut"
-import { Environment, OrbitControls } from "@react-three/drei"
+import { Environment, OrbitControls, Plane } from "@react-three/drei"
 
 export function Space() {
     return (
         <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none bg-black">
             <Canvas>
+                <fogExp2 attach={"fog"} args={["black", 0.04]} />
+                <Environment preset="apartment" environmentIntensity={0.3} />
+                <directionalLight position={[5, 2, 1]} intensity={5} />
                 <Suspense>
-                    <Environment preset="night" />
-                    <directionalLight position={[5, 2, 1]} intensity={5} />
                     <Physics gravity={[0, 0, 0]}>
                         <Character />
-                        <Pointer />
+                        {/* <Pointer /> */}
                     </Physics>
-                    <Stars />
                 </Suspense>
+                {/* <TimeWarp /> */}
+
+                <Stars />
+
+                {/* <Suspense fallback={null}>
+                    <EffectComposer>
+                        <Bloom
+                            intensity={10}
+                            kernelSize={3}
+                            luminanceThreshold={0.8}
+                        />
+                    </EffectComposer>
+                </Suspense> */}
+
                 {/* <OrbitControls /> */}
             </Canvas>
         </div>
@@ -44,15 +66,6 @@ function Stars() {
 }
 
 function Character() {
-    const characterRef = useRef(null)
-    const vec = new Vector3()
-
-    useFrame((_, delta) => {
-        delta = Math.min(0.1, delta)
-        //prettier-ignore
-        //@ts-ignore
-        characterRef.current?.applyImpulse(vec.copy(characterRef.current.translation()).negate().multiplyScalar(600))
-    })
     return (
         // <RigidBody
         //     ref={characterRef}
@@ -88,4 +101,100 @@ function Pointer({ vec = new Vector3() }) {
             <BallCollider args={[0.5]} mass={0.1} />
         </RigidBody>
     )
+}
+
+interface Plane {
+    ref: RefObject<Mesh>
+    pos: { x: number; y: number; z: number }
+    height: number
+    length: number
+    color: Color
+}
+
+function TimeWarp() {
+    const animationLength = 100
+    const numPlanes = 30
+    const xWindow: [number, number] = [2, 6]
+    const yWindow = 5
+    const lengthWindow: [number, number] = [30, 60]
+    const heightWindow: [number, number] = [0.5, 3.5]
+
+    // const refs = useRef(Array.from({length: animationLength}).map(() => ))
+
+    const planes: Plane[] = genPlanes(
+        animationLength,
+        numPlanes,
+        xWindow,
+        yWindow,
+        lengthWindow,
+        heightWindow
+    )
+
+    useFrame((_, delta) => {
+        delta = Math.min(0.1, delta)
+        planes.forEach((p) => {
+            if (p.ref.current?.position.z) {
+                if (p.ref.current.position.z > p.length / 2 + 5) {
+                    p.ref.current.position.setZ(-animationLength)
+                } else {
+                    p.ref.current.position.setZ(
+                        p.ref.current.position.z + delta * 30
+                    )
+                }
+            }
+        })
+    })
+    return (
+        <group>
+            {planes.map((p, index) => (
+                <Plane
+                    ref={p.ref}
+                    args={[p.length, p.height]}
+                    position={[p.pos.x, p.pos.y, p.pos.z]}
+                    rotation={[0, p.pos.x < 0 ? Math.PI / 2 : -Math.PI / 2, 0]}
+                    renderOrder={2}
+                    key={index}
+                >
+                    <meshBasicMaterial
+                        color={p.color}
+                        // transparent
+                        depthTest={false}
+                        toneMapped={false}
+                    />
+                </Plane>
+            ))}
+        </group>
+    )
+}
+
+function genPlanes(
+    len: number,
+    n: number,
+    xWindow: [number, number],
+    yWindow: number,
+    lWindow: [number, number],
+    hWindow: [number, number]
+) {
+    let planes: Plane[] = []
+    for (let i = 0; i < n; i++) {
+        let pos = {
+            x:
+                (Math.random() * (xWindow[1] - xWindow[0]) + xWindow[0]) *
+                alternate(i),
+            y: Math.random() * (yWindow * 2) - yWindow,
+            z: Math.random() * len * -1 - len,
+        }
+        let height = Math.random() * (hWindow[1] - hWindow[0]) + hWindow[0]
+        let length = Math.random() * (lWindow[1] - lWindow[0]) + lWindow[0]
+        let color = new Color(`hsl(${Math.random() * 40 + 330}, 100%, 55%)`)
+        let ref = createRef<Mesh>()
+        planes.push({ ref, pos, color, height, length })
+    }
+
+    return planes
+}
+
+const alternate = (i: number) => {
+    let n = i % 2
+    return n === 0 ? -1 : 1
 }
