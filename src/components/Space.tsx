@@ -17,7 +17,7 @@ import { Environment, OrbitControls, Plane } from "@react-three/drei"
 
 export function Space() {
     return (
-        <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none bg-black">
+        <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none ">
             <Canvas>
                 <fogExp2 attach={"fog"} args={["black", 0.04]} />
                 <Environment preset="apartment" environmentIntensity={0.3} />
@@ -30,7 +30,7 @@ export function Space() {
                 </Suspense>
                 {/* <TimeWarp /> */}
 
-                <Stars />
+                {/* <Stars /> */}
 
                 {/* <Suspense fallback={null}>
                     <EffectComposer>

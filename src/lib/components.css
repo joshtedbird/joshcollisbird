@@ -1,12 +1,10 @@
 .project-container {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto;
     gap: 0.5rem 0rem;
     grid-auto-flow: row;
-    grid-template-areas:
-        "img prose"
-        "tags prose";
+    grid-template-areas: "img prose";
 }
 
 .project-img {
@@ -15,6 +13,10 @@
 
 .project-prose {
     grid-area: prose;
+}
+
+.project-prose > p {
+    margin-bottom: 1rem;
 }
 
 .project-tags {

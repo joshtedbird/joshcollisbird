@@ -1,13 +1,7 @@
 import { useFrame, useThree } from "@react-three/fiber"
-import { useScroll } from "framer-motion"
+import { useScroll, useTransform } from "framer-motion"
 import { useMemo, useRef, useState } from "react"
-import {
-    GreaterDepth,
-    LessDepth,
-    NeverCompare,
-    NeverDepth,
-    Vector2,
-} from "three"
+import { Vector2 } from "three"
 
 export function StarField({
     fragment,
@@ -22,15 +16,19 @@ export function StarField({
     const { scrollYProgress } = useScroll()
     const [scroll, setScroll] = useState(0)
 
-    useFrame((state) => {
-        setScroll(scrollYProgress.get())
+    useTransform(() => {
+        let newScroll = scrollYProgress.get()
+        if (newScroll !== scroll) {
+            setScroll(newScroll)
+            console.log("update")
+        }
+    })
 
-        let time = state.clock.getElapsedTime()
-
+    useFrame(() => {
         // start from 20 to skip first 20 seconds ( optional )
         if (meshRef.current) {
             //@ts-ignore
-            meshRef.current.material.uniforms.iTime.value = time + 20
+            // meshRef.current.material.uniforms.iTime.value = time + 20
             //@ts-ignore
 
             meshRef.current.material.uniforms.u_scroll.value = scroll

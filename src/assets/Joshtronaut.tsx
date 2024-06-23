@@ -8,11 +8,13 @@ import { useGLTF } from "@react-three/drei"
 import { GLTF } from "three-stdlib"
 import {
     CapsuleCollider,
+    CylinderCollider,
     RapierRigidBody,
     RigidBody,
     useRevoluteJoint,
 } from "@react-three/rapier"
 import { ThreeEvent, useFrame } from "@react-three/fiber"
+import { useStore } from "../lib/store"
 
 type GLTFResult = GLTF & {
     nodes: {
@@ -79,13 +81,14 @@ const glassMat = new THREE.MeshPhysicalMaterial({
 
 export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
     const { nodes, materials } = useGLTF("/joshtronaut_v3.glb") as GLTFResult
+    const { joshCentre } = useStore()
 
     useEffect(() => {
         Object.keys(materials).map((m) => {
             //@ts-ignore
             materials[m].transparent = true
         })
-    }, [materials])
+    }, [])
 
     const torsoRef = useRef<RapierRigidBody>(null)!
     const leftArmRef = useRef<RapierRigidBody>(null)!
@@ -99,7 +102,7 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
         delta = Math.min(0.1, delta)
         //prettier-ignore
         //@ts-ignore
-        torsoRef.current?.applyImpulse(vec.copy(torsoRef.current.translation()).negate().multiplyScalar(600));
+        torsoRef.current?.applyImpulse(vec.copy(torsoRef.current.translation()).add(joshCentre).negate().multiplyScalar(600));
         torsoRef.current?.applyTorqueImpulse(
             vec.copy(torsoRef.current.rotation()).negate().multiplyScalar(5),
             true
@@ -127,7 +130,7 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
                     y: Math.random() * transWindow - transWindow / 2,
                     z: Math.random() * transWindow - transWindow / 2,
                 })
-                .multiplyScalar(0.08),
+                .multiplyScalar(0.3),
             true
         )
     }
@@ -136,7 +139,7 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
         <group
             renderOrder={3}
             onClick={(e: ThreeEvent<MouseEvent>) => handleClick(e)}
-            scale={1.2}
+            scale={1.4}
         >
             <group {...props} dispose={null}>
                 <RigidBody
@@ -146,8 +149,8 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
                     density={10000}
                     colliders={false}
                 >
-                    <CapsuleCollider args={[0.3, 0.3]} position={[0, 0.1, 0]} />
-                    <group position={[0, 0, 0]}>
+                    <CylinderCollider args={[0.4, 0.3]} position={[0, 0, 0]} />
+                    <group>
                         <mesh
                             geometry={nodes.Torso_and_Helmet_1.geometry}
                             material={materials.Glass}
@@ -329,7 +332,7 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
                     density={100}
                     colliders={"hull"}
                 >
-                    <group position={[0.208, -0.45, 0.015]}>
+                    <group position={[0.208, -0.41, 0.015]}>
                         <mesh
                             geometry={nodes.Leg_L001_1.geometry}
                             material={materials.Suit_ribbed}
@@ -383,8 +386,8 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
                     a={torsoRef}
                     b={leftLegRef}
                     args={[
-                        [0.058, -0.45, 0.015],
-                        [0.07, -0.4, 0],
+                        [0.058, -0.393, 0.015],
+                        [0.04, -0.3, -0.02],
                         [1, 0, 0],
                     ]}
                 />
@@ -392,8 +395,8 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
                     a={torsoRef}
                     b={rightLegRef}
                     args={[
-                        [-0.058, -0.45, 0.015],
-                        [-0.07, -0.4, 0],
+                        [-0.058, -0.393, 0.015],
+                        [-0.04, -0.36, -0.02],
                         [1, 0, 0],
                     ]}
                 />
