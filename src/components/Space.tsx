@@ -1,21 +1,15 @@
-import { Canvas, ThreeElements, ThreeEvent, useFrame } from "@react-three/fiber"
-import { Physics, RigidBody, BallCollider } from "@react-three/rapier"
-import { Bloom, EffectComposer } from "@react-three/postprocessing"
-import {
-    RefObject,
-    Suspense,
-    createRef,
-    useEffect,
-    useRef,
-    useState,
-} from "react"
-import { DoubleSide, Mesh, Vector3, Color } from "three"
+import { Canvas, useFrame } from "@react-three/fiber"
+import { Physics } from "@react-three/rapier"
+import { RefObject, Suspense, createRef, useEffect, useState } from "react"
+import { Mesh, Color } from "three"
 import axios from "axios"
-import { StarField } from "./StarField"
+// import { StarField } from "./StarField"
 import { Joshtronaut } from "../assets/Joshtronaut"
-import { Environment, OrbitControls, Plane } from "@react-three/drei"
+import { Environment, Plane } from "@react-three/drei"
 
 export function Space() {
+    const renderStars = false
+    const renderTimeWarp = false
     return (
         <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none ">
             <Canvas>
@@ -28,9 +22,9 @@ export function Space() {
                         {/* <Pointer /> */}
                     </Physics>
                 </Suspense>
-                {/* <TimeWarp /> */}
+                {renderTimeWarp && <TimeWarp />}
 
-                {/* <Stars /> */}
+                {renderStars && <Stars />}
 
                 {/* <Suspense fallback={null}>
                     <EffectComposer>
@@ -62,7 +56,7 @@ function Stars() {
 
     // If the shaders are not loaded yet, return null (nothing will be rendered)
     if (vertex == "" || fragment == "") return null
-    return <StarField vertex={vertex} fragment={fragment} />
+    return null
 }
 
 function Character() {
@@ -79,29 +73,29 @@ function Character() {
     )
 }
 
-function Pointer({ vec = new Vector3() }) {
-    const ref = useRef(null!)
-    useFrame(({ mouse, viewport }) => {
-        //@ts-ignore
-        ref.current?.setNextKinematicTranslation(
-            vec.set(
-                (mouse.x * viewport.width) / 2,
-                (mouse.y * viewport.height) / 2,
-                0
-            )
-        )
-    })
-    return (
-        <RigidBody
-            position={[0, 0, 0]}
-            type="kinematicPosition"
-            colliders={false}
-            ref={ref}
-        >
-            <BallCollider args={[0.5]} mass={0.1} />
-        </RigidBody>
-    )
-}
+// function Pointer({ vec = new Vector3() }) {
+//     const ref = useRef(null!)
+//     useFrame(({ mouse, viewport }) => {
+//         //@ts-ignore
+//         ref.current?.setNextKinematicTranslation(
+//             vec.set(
+//                 (mouse.x * viewport.width) / 2,
+//                 (mouse.y * viewport.height) / 2,
+//                 0
+//             )
+//         )
+//     })
+//     return (
+//         <RigidBody
+//             position={[0, 0, 0]}
+//             type="kinematicPosition"
+//             colliders={false}
+//             ref={ref}
+//         >
+//             <BallCollider args={[0.5]} mass={0.1} />
+//         </RigidBody>
+//     )
+// }
 
 interface Plane {
     ref: RefObject<Mesh>

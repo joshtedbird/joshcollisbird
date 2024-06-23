@@ -1,7 +1,6 @@
 import {
     AnimatePresence,
     MotionValue,
-    easeInOut,
     motion,
     useInView,
     useScroll,

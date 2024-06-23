@@ -7,7 +7,6 @@ import { useRef, RefObject, useEffect } from "react"
 import { useGLTF } from "@react-three/drei"
 import { GLTF } from "three-stdlib"
 import {
-    CapsuleCollider,
     CylinderCollider,
     RapierRigidBody,
     RigidBody,
@@ -65,19 +64,6 @@ type GLTFResult = GLTF & {
         Suit_ribbed: THREE.MeshStandardMaterial
     }
 }
-
-const glassMat = new THREE.MeshPhysicalMaterial({
-    color: 0xffffff,
-    transmission: 1,
-    opacity: 1,
-    metalness: 0,
-    roughness: 0,
-    ior: 1.52,
-    thickness: 0.1,
-    specularIntensity: 1,
-    specularColor: 0xffffff,
-    transparent: true,
-})
 
 export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
     const { nodes, materials } = useGLTF("/joshtronaut_v3.glb") as GLTFResult
