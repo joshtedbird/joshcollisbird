@@ -10,16 +10,22 @@ import { Environment, Plane } from "@react-three/drei"
 export function Space() {
     const renderStars = false
     const renderTimeWarp = false
+
+    const [loaded, setLoaded] = useState(false)
+
+    useEffect(() => {
+        setLoaded(true)
+    }, [])
+
     return (
         <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none ">
             <Canvas>
                 <fogExp2 attach={"fog"} args={["black", 0.04]} />
                 <Environment preset="apartment" environmentIntensity={0.3} />
                 <directionalLight position={[5, 2, 1]} intensity={5} />
-                <Suspense>
+                <Suspense fallback={null}>
                     <Physics gravity={[0, 0, 0]}>
-                        <Character />
-                        {/* <Pointer /> */}
+                        {loaded && <Character />}
                     </Physics>
                 </Suspense>
                 {renderTimeWarp && <TimeWarp />}
