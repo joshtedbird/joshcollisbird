@@ -4,33 +4,28 @@ import { RefObject, Suspense, createRef, useEffect, useState } from "react"
 import { Mesh, Color } from "three"
 import axios from "axios"
 // import { StarField } from "./StarField"
+import { StarField } from "./StarField_v2"
 import { Joshtronaut } from "../assets/Joshtronaut"
 import { Environment, Plane } from "@react-three/drei"
 
 export function Space() {
-    const renderStars = false
+    const renderStars = true
     const renderTimeWarp = false
-
-    const [loaded, setLoaded] = useState(false)
-
-    useEffect(() => {
-        setLoaded(true)
-    }, [])
 
     return (
         <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none ">
             <Canvas>
-                <fogExp2 attach={"fog"} args={["black", 0.04]} />
+                {/* <fogExp2 attach={"fog"} args={["black", 0.04]} /> */}
                 <Environment preset="apartment" environmentIntensity={0.3} />
                 <directionalLight position={[5, 2, 1]} intensity={5} />
                 <Suspense fallback={null}>
                     <Physics gravity={[0, 0, 0]}>
-                        {loaded && <Character />}
+                        <Character />
                     </Physics>
                 </Suspense>
                 {renderTimeWarp && <TimeWarp />}
 
-                {renderStars && <Stars />}
+                {renderStars && <StarField count={250} />}
 
                 {/* <Suspense fallback={null}>
                     <EffectComposer>
@@ -62,7 +57,7 @@ function Stars() {
 
     // If the shaders are not loaded yet, return null (nothing will be rendered)
     if (vertex == "" || fragment == "") return null
-    return null
+    return StarField
 }
 
 function Character() {

@@ -13,6 +13,6 @@ export const useStore = create<IStore>((set) => ({
     isMobile: false,
     setIsMobile: (b: boolean) => set({ isMobile: b }),
 
-    joshCentre: new Vector3(0, -0.3, 0),
+    joshCentre: new Vector3(0, 0, 0),
     setJoshCentre: (v: Vector3) => set({ joshCentre: v }),
 }))
