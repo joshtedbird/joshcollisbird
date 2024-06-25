@@ -1,8 +1,7 @@
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Physics } from "@react-three/rapier"
-import { RefObject, Suspense, createRef, useEffect, useState } from "react"
+import { RefObject, Suspense, createRef } from "react"
 import { Mesh, Color } from "three"
-import axios from "axios"
 // import { StarField } from "./StarField"
 import { StarField } from "./StarField_v2"
 import { Joshtronaut } from "../assets/Joshtronaut"
@@ -43,22 +42,22 @@ export function Space() {
     )
 }
 
-function Stars() {
-    // State variables to store the vertex and fragment shaders as strings
-    const [fragment, setFragment] = useState("")
-    const [vertex, setVertex] = useState("")
+// function Stars() {
+//     // State variables to store the vertex and fragment shaders as strings
+//     const [fragment, setFragment] = useState("")
+//     const [vertex, setVertex] = useState("")
 
-    // Fetch the shaders once the component mounts
-    useEffect(() => {
-        // fetch the vertex and fragment shaders from public folder
-        axios.get("/vertexShader.glsl").then((res) => setVertex(res.data))
-        axios.get("/fragmentShader.glsl").then((res) => setFragment(res.data))
-    }, [])
+//     // Fetch the shaders once the component mounts
+//     useEffect(() => {
+//         // fetch the vertex and fragment shaders from public folder
+//         axios.get("/vertexShader.glsl").then((res) => setVertex(res.data))
+//         axios.get("/fragmentShader.glsl").then((res) => setFragment(res.data))
+//     }, [])
 
-    // If the shaders are not loaded yet, return null (nothing will be rendered)
-    if (vertex == "" || fragment == "") return null
-    return StarField
-}
+//     // If the shaders are not loaded yet, return null (nothing will be rendered)
+//     if (vertex == "" || fragment == "") return null
+//     return StarField
+// }
 
 function Character() {
     return (
