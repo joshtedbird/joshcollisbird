@@ -1,12 +1,17 @@
 import { useLoader, useThree } from "@react-three/fiber"
 import { useScroll, useTransform } from "framer-motion"
 import { motion } from "framer-motion-3d"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Object3D, TextureLoader } from "three"
 import starTexture from "../assets/Star.png"
 
 export function StarField({ count = 300 }) {
     const { scrollYProgress } = useScroll()
+    const [loaded, setLoaded] = useState(false)
+
+    useEffect(() => {
+        setLoaded(true)
+    }, [])
 
     const viewport = useThree((state) => state.viewport)
 
@@ -18,14 +23,14 @@ export function StarField({ count = 300 }) {
     return (
         //@ts-ignore
         <motion.group position={[0, scrollVal, 0]}>
-            <Stars count={count} />
+            {loaded && <Stars count={count} />}
         </motion.group>
     )
 }
 
 function Stars({ count = 300, temp = new Object3D() }) {
     const instancedMeshRef = useRef(null)
-    const dim = { x: 5, y: 9, z: 20 }
+    const dim = { x: 10, y: 10, z: 40 }
     const viewport = useThree((state) => state.viewport)
     const texture = useLoader(TextureLoader, starTexture)
 
@@ -49,6 +54,7 @@ function Stars({ count = 300, temp = new Object3D() }) {
 
     return (
         //@ts-ignore
+
         <instancedMesh ref={instancedMeshRef} args={[null, null, count]}>
             <planeGeometry args={[0.2, 0.2]} />
 

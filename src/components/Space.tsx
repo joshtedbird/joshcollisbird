@@ -21,10 +21,9 @@ export function Space() {
                     <Physics gravity={[0, 0, 0]}>
                         <Character />
                     </Physics>
+                    {renderStars && <StarField count={250} />}
                 </Suspense>
                 {renderTimeWarp && <TimeWarp />}
-
-                {renderStars && <StarField count={250} />}
 
                 {/* <Suspense fallback={null}>
                     <EffectComposer>
