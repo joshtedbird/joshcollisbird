@@ -1,5 +1,5 @@
 import { useStore } from "../lib/store"
-import PlanetBorder from "../assets/PlanetBorder"
+import PlanetBorder from "./PlanetBorder"
 import "../lib/components.css"
 import { motion } from "framer-motion"
 import { ReactNode, useState } from "react"

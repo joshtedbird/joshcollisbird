@@ -1,15 +1,20 @@
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Physics } from "@react-three/rapier"
-import { RefObject, Suspense, createRef } from "react"
+import { RefObject, Suspense, createRef, useEffect, useState } from "react"
 import { Mesh, Color } from "three"
 // import { StarField } from "./StarField"
 import { StarField } from "./StarField_v2"
-import { Joshtronaut } from "../assets/Joshtronaut"
+import { Joshtronaut } from "./Joshtronaut"
 import { Environment, Plane } from "@react-three/drei"
 
 export function Space() {
+    const [loaded, setLoaded] = useState(false)
     const renderStars = true
     const renderTimeWarp = false
+
+    useEffect(() => {
+        setLoaded(true)
+    }, [])
 
     return (
         <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none ">
@@ -19,8 +24,9 @@ export function Space() {
                 <directionalLight position={[5, 2, 1]} intensity={5} />
                 <Suspense fallback={null}>
                     <Physics gravity={[0, 0, 0]}>
-                        <Character />
+                        {loaded && <Joshtronaut />}
                     </Physics>
+
                     {renderStars && <StarField count={250} />}
                 </Suspense>
                 {renderTimeWarp && <TimeWarp />}
@@ -57,20 +63,6 @@ export function Space() {
 //     if (vertex == "" || fragment == "") return null
 //     return StarField
 // }
-
-function Character() {
-    return (
-        // <RigidBody
-        //     ref={characterRef}
-        //     linearDamping={3}
-        //     angularDamping={0.5}
-        //     density={10000}
-        //     colliders={false}
-        // >
-        <Joshtronaut />
-        // </RigidBody>
-    )
-}
 
 // function Pointer({ vec = new Vector3() }) {
 //     const ref = useRef(null!)

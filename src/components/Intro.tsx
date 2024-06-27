@@ -37,10 +37,10 @@ export function Intro() {
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                         className="flex flex-col items-end z-20 fixed top-[50vh] left-[50vw] text-[3.4rem] w-[85%] lg:w-auto"
                     >
-                        <h1 className="uppercase font-black  pointer-events-none select-none leading-[3.5rem] ">
+                        <h1 className=" drop-shadow-lg uppercase font-black  pointer-events-none select-none leading-[3.5rem] ">
                             {"Josh"}
                         </h1>
-                        <h1 className="uppercase font-black pointer-events-none select-none leading-[3.5rem]">
+                        <h1 className="drop-shadow-lg uppercase font-black pointer-events-none select-none leading-[3.5rem]">
                             {"collis-bird"}
                         </h1>
                         <ScrollingList progress={scrollYProgress} />
@@ -95,7 +95,7 @@ function ScrollingList({ progress }: ListProps) {
                 {list.map((i, index) => (
                     <h1
                         key={index}
-                        className="uppercase font-black pointer-events-none select-none text-highlight "
+                        className="drop-shadow-lg uppercase font-black pointer-events-none select-none text-highlight "
                     >
                         {i}
                     </h1>
