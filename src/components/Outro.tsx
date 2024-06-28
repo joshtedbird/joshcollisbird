@@ -133,7 +133,7 @@ export function Outro() {
                             </a>
                             <a
                                 className="aspect-square h-full"
-                                href=""
+                                href="mailto:josh.ted.bird@gmail.com"
                                 target="_blank"
                             >
                                 <MdEmail size={"100%"} />

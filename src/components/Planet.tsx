@@ -6,6 +6,11 @@ import { ReactNode, useState } from "react"
 import ImgBrisbane from "../assets/thumb-brisbane.png"
 import ImgIPA from "../assets/thumb-ip-aus.png"
 import ImgFifteenTiles from "../assets/thumb-fifteen-tiles.png"
+import ImgSmashGeo from "../assets/thumb-smash-geo.png"
+import ContentSmashGeo_1 from "../assets/content-smash-geo-1.png"
+import ContentSmashGeo_2 from "../assets/content-smash-geo-2.png"
+import { IoClose } from "react-icons/io5"
+import * as Dialog from "@radix-ui/react-dialog"
 
 export function Planet() {
     return (
@@ -64,10 +69,11 @@ export function Planet() {
                     </p>
                 </Project>
                 <Project
-                    title={"Catchment Fingerprinting UI Prototype"}
+                    title={"Catchment Fingerprinting UI"}
                     tags={["UI/UX", "Data", "React", "Web App", "Geospatial"]}
-                    img={"../assets/thumb-brisbane.png"}
+                    img={ImgSmashGeo}
                     link=""
+                    btnText="Explore"
                 >
                     <p>
                         A hybrid project between Smash Delta's design
@@ -84,6 +90,21 @@ export function Planet() {
                     <p className="italic text-[0.8rem]">
                         Note this project is not publicly available
                     </p>
+                    <Dialog.Root>
+                        <div className="flex gap-4 justify-center mt-6">
+                            <Dialog.Trigger className="bg-highlight text-white font-black flex items-center justify-center flex-auto h-12 rounded-[12px] uppercase text-[1.6rem] lg:max-w-[20rem] ">
+                                Explore
+                            </Dialog.Trigger>
+                        </div>
+                        <Dialog.Portal>
+                            <Dialog.Overlay className="fixed top-0 left-0 right-0 bottom-0 z-40  bg-black/85 backdrop-blur-[3px] flex flex-col items-center pointer-events-auto">
+                                <Modal />
+                                <Dialog.Close className="fixed top-8 right-8 w-8 h-8 rounded-full bg-black/25 text-white">
+                                    {<IoClose size={"100%"} />}
+                                </Dialog.Close>
+                            </Dialog.Overlay>
+                        </Dialog.Portal>
+                    </Dialog.Root>
                 </Project>
                 <Project
                     title={"Fifteen Tiles"}
@@ -103,6 +124,7 @@ export function Planet() {
                     </p>
                 </Project>
             </div>
+
             <div className="absolute bottom-[-1.9rem] h-[2rem] lg:bottom-[-5.9rem] left-0 w-full lg:h-[6rem] scale-y-[-100%] z-20">
                 <PlanetBorder />
             </div>
@@ -117,9 +139,17 @@ interface ProjectProps {
     children: ReactNode
     img: string
     link: string
+    btnText?: string
 }
 
-function Project({ title, tags, children, img, link }: ProjectProps) {
+function Project({
+    title,
+    tags,
+    children,
+    img,
+    link,
+    btnText = "Visit",
+}: ProjectProps) {
     const { isMobile } = useStore()
     const [open, setOpen] = useState(false)
 
@@ -168,15 +198,17 @@ function Project({ title, tags, children, img, link }: ProjectProps) {
                         <h2 className="font-black text-[1.6rem]">{title}</h2>
                     )}
                     {children}
-                    <div className="flex gap-4 justify-center mt-6">
-                        <a
-                            href={link}
-                            target="_blank"
-                            className="bg-highlight text-white font-black flex items-center justify-center flex-auto h-12 rounded-[12px] uppercase text-[1.6rem] lg:max-w-[20rem] "
-                        >
-                            Visit
-                        </a>
-                    </div>
+                    {btnText === "Visit" && (
+                        <div className="flex gap-4 justify-center mt-6">
+                            <a
+                                href={link}
+                                target="_blank"
+                                className="bg-highlight text-white font-black flex items-center justify-center flex-auto h-12 rounded-[12px] uppercase text-[1.6rem] lg:max-w-[20rem] "
+                            >
+                                {btnText}
+                            </a>
+                        </div>
+                    )}
                 </div>
             </motion.div>
         </div>
@@ -190,5 +222,43 @@ function Tag({ name }: { name: string }) {
                 {name}
             </span>
         </div>
+    )
+}
+
+function Modal() {
+    return (
+        <Dialog.Content className="p-4 flex flex-col items-center w-full h-full text-white overflow-y-auto">
+            <div className="max-w-[45rem] gap-y-8 flex flex-col">
+                <div className="w-full aspect-video ">
+                    <img
+                        className="w-full h-full rounded-lg"
+                        src={ContentSmashGeo_1}
+                    />
+                </div>
+
+                <p className="w-full ">
+                    The tool was designed to generate a "Catchment" around a
+                    user-selected point on a map. This catchment gave travel
+                    times from surrounding residential addresses via car, public
+                    transport, cycling and walking, and was visualised at the
+                    individual level on a fully interactive map.{" "}
+                </p>
+
+                <div className="w-full  aspect-video ">
+                    <img
+                        className="w-full h-full rounded-lg"
+                        src={ContentSmashGeo_2}
+                    />
+                </div>
+                <p className="w-full ">
+                    It also generated and visualised complex data around
+                    demographics, ammenities and land use of the area using
+                    custom data visualisations. The data being visualised both
+                    on the map and in graph form was also dynamic to the UI,
+                    allowing for toggling of transport modes as well as control
+                    over the maximum travel time being visualised.
+                </p>
+            </div>
+        </Dialog.Content>
     )
 }
