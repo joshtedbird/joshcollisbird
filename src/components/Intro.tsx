@@ -56,15 +56,7 @@ interface ListProps {
 }
 
 function ScrollingList({ progress }: ListProps) {
-    const list = [
-        "React",
-        "Svelte",
-        "TypeScript",
-        "Geospatial",
-        "3D",
-        "Design",
-        ".com",
-    ]
+    const list = ["Design", "Dev", "UI/UX", "Geospatial", "3D", ".com"]
     const step = 1 / list.length
 
     const [active, setActive] = useState(
