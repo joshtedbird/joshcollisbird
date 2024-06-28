@@ -5,16 +5,19 @@ import { Mesh, Color } from "three"
 // import { StarField } from "./StarField"
 import { StarField } from "./StarField_v2"
 import { Joshtronaut } from "./Joshtronaut"
-import { Environment, Plane } from "@react-three/drei"
+import { Environment, Plane, useProgress } from "@react-three/drei"
 
 export function Space() {
-    const [loaded, setLoaded] = useState(false)
-    const renderStars = true
-    const renderTimeWarp = false
+    const { progress } = useProgress()
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        setLoaded(true)
-    }, [])
+        setLoading(progress !== 100)
+        console.log(progress)
+    }, [progress])
+
+    const renderStars = true
+    const renderTimeWarp = false
 
     return (
         <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none ">
@@ -23,11 +26,9 @@ export function Space() {
                 <Environment preset="apartment" environmentIntensity={0.3} />
                 <directionalLight position={[5, 2, 1]} intensity={5} />
                 <Suspense fallback={null}>
-                    {loaded && (
-                        <Physics gravity={[0, 0, 0]}>
-                            <Joshtronaut />
-                        </Physics>
-                    )}
+                    <Physics gravity={[0, 0, 0]} paused={loading}>
+                        <Joshtronaut />
+                    </Physics>
 
                     {renderStars && <StarField count={250} />}
                 </Suspense>
