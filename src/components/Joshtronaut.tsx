@@ -133,7 +133,7 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
         )
     }
 
-    return (
+    return loaded ? (
         <group
             renderOrder={3}
             onClick={(e: ThreeEvent<MouseEvent>) => handleClick(e)}
@@ -396,6 +396,8 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
                 />
             </group>
         </group>
+    ) : (
+        <></>
     )
 }
 
