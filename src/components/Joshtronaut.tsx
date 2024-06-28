@@ -78,8 +78,10 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
     }, [])
 
     useEffect(() => {
-        setLoaded(true)
-    }, [])
+        if (nodes) {
+            setLoaded(true)
+        }
+    }, [nodes])
 
     const torsoRef = useRef<RapierRigidBody>(null)!
     const leftArmRef = useRef<RapierRigidBody>(null)!
