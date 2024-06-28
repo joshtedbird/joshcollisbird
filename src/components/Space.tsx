@@ -27,7 +27,7 @@ export function Space() {
                 <directionalLight position={[5, 2, 1]} intensity={5} />
                 <Suspense fallback={null}>
                     <Physics gravity={[0, 0, 0]} paused={loading}>
-                        <Joshtronaut />
+                        {!loading && <Joshtronaut />}
                     </Physics>
 
                     {renderStars && <StarField count={250} />}

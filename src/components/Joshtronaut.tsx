@@ -80,6 +80,7 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
     useEffect(() => {
         if (nodes) {
             setLoaded(true)
+            console.log("loaded")
         }
     }, [nodes])
 
