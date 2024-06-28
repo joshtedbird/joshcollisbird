@@ -23,9 +23,11 @@ export function Space() {
                 <Environment preset="apartment" environmentIntensity={0.3} />
                 <directionalLight position={[5, 2, 1]} intensity={5} />
                 <Suspense fallback={null}>
-                    <Physics gravity={[0, 0, 0]}>
-                        {loaded && <Joshtronaut />}
-                    </Physics>
+                    {loaded && (
+                        <Physics gravity={[0, 0, 0]}>
+                            <Joshtronaut />
+                        </Physics>
+                    )}
 
                     {renderStars && <StarField count={250} />}
                 </Suspense>
