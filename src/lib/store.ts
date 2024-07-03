@@ -10,6 +10,9 @@ interface IStore {
 
     joshCentre: Vector3
     setJoshCentre: (v: Vector3) => void
+
+    loadProgress: number
+    setLoadProgress: (n: number) => void
 }
 
 export const useStore = create<IStore>((set) => ({
@@ -21,4 +24,7 @@ export const useStore = create<IStore>((set) => ({
 
     joshCentre: new Vector3(0, -0.4, 0),
     setJoshCentre: (v: Vector3) => set({ joshCentre: v }),
+
+    loadProgress: 0,
+    setLoadProgress: (n: number) => set({ loadProgress: n }),
 }))
