@@ -7,7 +7,6 @@ import {
     useTransform,
 } from "framer-motion"
 import { useRef, useState } from "react"
-import { useStore } from "../lib/store"
 
 export function Intro() {
     const scrollRef = useRef(null)!
@@ -15,7 +14,6 @@ export function Intro() {
         target: scrollRef,
     })
     const isInView = useInView(scrollRef, { margin: "-100% 0px 0px 0px" })
-    const { siteEntered } = useStore()
 
     const variants = {
         in: { opacity: 0, transform: "translate(-50%, calc(-50% + 30px))" },
