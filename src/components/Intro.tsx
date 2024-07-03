@@ -7,6 +7,7 @@ import {
     useTransform,
 } from "framer-motion"
 import { useRef, useState } from "react"
+import { useStore } from "../lib/store"
 
 export function Intro() {
     const scrollRef = useRef(null)!
@@ -14,6 +15,7 @@ export function Intro() {
         target: scrollRef,
     })
     const isInView = useInView(scrollRef, { margin: "-100% 0px 0px 0px" })
+    const { siteEntered } = useStore()
 
     const variants = {
         in: { opacity: 0, transform: "translate(-50%, calc(-50% + 30px))" },
@@ -34,7 +36,7 @@ export function Intro() {
                         animate={"visible"}
                         exit={"out"}
                         variants={variants}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        transition={{ duration: 0.6, ease: "easeInOut" }}
                         className="flex flex-col items-end z-20 fixed top-[50vh] left-[50vw] text-[3.4rem] w-[85%] lg:w-auto"
                     >
                         <h1 className=" drop-shadow-lg uppercase font-black  pointer-events-none select-none leading-[3.5rem] ">

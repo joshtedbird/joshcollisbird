@@ -5,6 +5,9 @@ interface IStore {
     isMobile: boolean
     setIsMobile: (b: boolean) => void
 
+    siteEntered: boolean
+    setSiteEntered: (b: boolean) => void
+
     joshCentre: Vector3
     setJoshCentre: (v: Vector3) => void
 }
@@ -13,6 +16,9 @@ export const useStore = create<IStore>((set) => ({
     isMobile: false,
     setIsMobile: (b: boolean) => set({ isMobile: b }),
 
-    joshCentre: new Vector3(0, 0, 0),
+    siteEntered: false,
+    setSiteEntered: (b: boolean) => set({ siteEntered: b }),
+
+    joshCentre: new Vector3(0, -0.4, 0),
     setJoshCentre: (v: Vector3) => set({ joshCentre: v }),
 }))

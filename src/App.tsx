@@ -4,9 +4,10 @@ import { Planet } from "./components/Planet"
 import { Outro } from "./components/Outro"
 import { useStore } from "./lib/store"
 import { useEffect } from "react"
+import { Entry } from "./components/Entry"
 
 function App() {
-    const { setIsMobile } = useStore()
+    const { setIsMobile, siteEntered } = useStore()
 
     function handleWindowSizeChange() {
         setIsMobile(window.innerWidth <= 768)
@@ -20,10 +21,15 @@ function App() {
     }, [])
 
     return (
-        <div className="w-full flex flex-col font-body bg-black">
-            <Intro />
-            <Planet />
-            <Outro />
+        <div className="w-full flex flex-col font-body">
+            {siteEntered && (
+                <>
+                    <Intro />
+                    <Planet />
+                    <Outro />
+                </>
+            )}
+            <Entry />
 
             <Space />
         </div>

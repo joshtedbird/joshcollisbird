@@ -4,9 +4,12 @@ import { motion } from "framer-motion-3d"
 import { useEffect, useRef, useState } from "react"
 import { Object3D, TextureLoader } from "three"
 import starTexture from "../assets/Star.png"
+import { useStore } from "../lib/store"
 
 export function StarField({ count = 300 }) {
     const { scrollYProgress } = useScroll()
+    const { siteEntered } = useStore()
+
     const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
@@ -15,9 +18,11 @@ export function StarField({ count = 300 }) {
 
     const viewport = useThree((state) => state.viewport)
 
-    const scrollVal = useTransform(
-        () =>
-            scrollYProgress.get() * (viewport.height * 4) - viewport.height * 2
+    const scrollVal = useTransform(() =>
+        siteEntered
+            ? scrollYProgress.get() * (viewport.height * 4) -
+              viewport.height * 8
+            : -viewport.height * 8
     )
 
     return (
@@ -40,7 +45,7 @@ function Stars({ count = 300, temp = new Object3D() }) {
             for (let i = 0; i < count; i++) {
                 temp.position.set(
                     (0.5 - Math.random()) * viewport.width * dim.x,
-                    (0.5 - Math.random()) * viewport.height * dim.y,
+                    Math.random() * viewport.height * dim.y,
                     -Math.random() * dim.z
                 )
                 temp.updateMatrix()

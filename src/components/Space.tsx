@@ -1,33 +1,33 @@
 import { Canvas, useFrame } from "@react-three/fiber"
 import { Physics } from "@react-three/rapier"
-import { RefObject, Suspense, createRef, useEffect, useState } from "react"
+import { RefObject, Suspense, createRef } from "react"
 import { Mesh, Color } from "three"
 // import { StarField } from "./StarField"
 import { StarField } from "./StarField_v2"
 import { Joshtronaut } from "./Joshtronaut"
-import { Environment, Plane, useProgress } from "@react-three/drei"
+import { Environment, Plane } from "@react-three/drei"
 
 export function Space() {
-    const { progress } = useProgress()
-    const [loading, setLoading] = useState(true)
+    // const { progress } = useProgress()
+    // const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        setLoading(progress !== 100)
-        console.log(progress)
-    }, [progress])
+    // useEffect(() => {
+    //     setLoading(progress !== 100)
+    //     console.log(progress)
+    // }, [progress])
 
     const renderStars = true
     const renderTimeWarp = false
 
     return (
-        <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none ">
+        <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none bg-black">
             <Canvas>
                 {/* <fogExp2 attach={"fog"} args={["black", 0.04]} /> */}
                 <Environment preset="apartment" environmentIntensity={0.3} />
                 <directionalLight position={[5, 2, 1]} intensity={5} />
                 <Suspense fallback={null}>
-                    <Physics gravity={[0, 0, 0]} paused={loading}>
-                        {!loading && <Joshtronaut />}
+                    <Physics gravity={[0, 0, 0]}>
+                        <Joshtronaut />
                     </Physics>
 
                     {renderStars && <StarField count={250} />}
