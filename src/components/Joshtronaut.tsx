@@ -128,13 +128,13 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
     }
 
     return (
-        <Center>
+        // <Center>
             <group
                 renderOrder={3}
                 onClick={(e: ThreeEvent<MouseEvent>) => handleClick(e)}
                 scale={1.4}
-                // position={[2.5, 4, 0]}
-                // rotation={[0, 0.1, Math.PI]}
+                position={[2.5, 4, 0]}
+                rotation={[0, 0.1, Math.PI]}
             >
                 <group {...props} dispose={null}>
                     <RigidBody
@@ -394,7 +394,7 @@ export function Joshtronaut(props: JSX.IntrinsicElements["group"]) {
                     />
                 </group>
             </group>
-        </Center>
+        // </Center>
     )
 }
 
