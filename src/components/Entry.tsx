@@ -18,7 +18,7 @@ export function Entry() {
                         <span>loading...</span>
                     ) : (
                         <span className="flex gap-x-3 items-center">
-                            <BsHandIndexThumb /> to enter
+                            <BsHandIndexThumb /> me to enter
                         </span>
                     )}
                 </motion.div>
