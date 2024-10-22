@@ -20,13 +20,11 @@ export function Entry() {
         if (siteEntered) {
             if (hasScrolled) {
                 setPromptVisible(false);
-                console.log("SCROLLED");
             }
 
             const timer = setTimeout(() => {
                 if (!hasScrolled) {
                     setPromptVisible(true);
-                    console.log("PROMPT");
                 }
             }, PROMPT_TIME * 1000);
             return () => clearTimeout(timer);
@@ -36,10 +34,8 @@ export function Entry() {
     useTransform(() => {
         if (scrollYProgress.get() === 0 && hasScrolled) {
             setHasScrolled(false);
-            console.log("AT THE TOP");
         } else if (scrollYProgress.get() > 0 && !hasScrolled) {
             setHasScrolled(true);
-            console.log("NOT AT THE TOP");
         }
     });
 
@@ -54,14 +50,7 @@ export function Entry() {
                     </Prompt>
                 ))}
             {siteEntered && promptVisible && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed bottom-32 left-1/2 translate-x-[-50%] text-white z-40 text-[1.5rem] pointer-events-none select-none"
-                >
-                    Scroll to explore!
-                </motion.div>
+                <Prompt>Scroll to explore!</Prompt>
             )}
         </AnimatePresence>
     );
@@ -83,9 +72,3 @@ function Prompt({ children }: PromptProps) {
         </motion.div>
     );
 }
-
-const ScrollPromptVariants = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
-};
