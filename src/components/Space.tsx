@@ -1,11 +1,11 @@
-import { Canvas, useFrame } from "@react-three/fiber"
-import { Physics } from "@react-three/rapier"
-import { RefObject, Suspense, createRef } from "react"
-import { Mesh, Color } from "three"
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Physics } from "@react-three/rapier";
+import { RefObject, Suspense, createRef } from "react";
+import { Mesh, Color } from "three";
 // import { StarField } from "./StarField"
-import { StarField } from "./StarField_v2"
-import { Joshtronaut } from "./Joshtronaut"
-import { Environment, Plane } from "@react-three/drei"
+import { StarField } from "./StarField_v2";
+import { Joshtronaut } from "./Joshtronaut";
+import { Environment, Plane } from "@react-three/drei";
 
 export function Space() {
     // const { progress } = useProgress()
@@ -16,11 +16,11 @@ export function Space() {
     //     console.log(progress)
     // }, [progress])
 
-    const renderStars = true
-    const renderTimeWarp = false
+    const renderStars = true;
+    const renderTimeWarp = false;
 
     return (
-        <div className="fixed top-0 left-0 w-full h-[100vh] z-0 pointer-events-none select-none bg-black">
+        <div className="fixed top-0 left-0 w-full min-w-[500px] min-h-[1000px] h-[100vh] z-0 pointer-events-none select-none bg-black">
             <Canvas>
                 {/* <fogExp2 attach={"fog"} args={["black", 0.04]} /> */}
                 <Environment preset="apartment" environmentIntensity={0.3} />
@@ -47,7 +47,7 @@ export function Space() {
                 {/* <OrbitControls /> */}
             </Canvas>
         </div>
-    )
+    );
 }
 
 // function Stars() {
@@ -92,20 +92,20 @@ export function Space() {
 // }
 
 interface Plane {
-    ref: RefObject<Mesh>
-    pos: { x: number; y: number; z: number }
-    height: number
-    length: number
-    color: Color
+    ref: RefObject<Mesh>;
+    pos: { x: number; y: number; z: number };
+    height: number;
+    length: number;
+    color: Color;
 }
 
 function TimeWarp() {
-    const animationLength = 100
-    const numPlanes = 30
-    const xWindow: [number, number] = [2, 6]
-    const yWindow = 5
-    const lengthWindow: [number, number] = [30, 60]
-    const heightWindow: [number, number] = [0.5, 3.5]
+    const animationLength = 100;
+    const numPlanes = 30;
+    const xWindow: [number, number] = [2, 6];
+    const yWindow = 5;
+    const lengthWindow: [number, number] = [30, 60];
+    const heightWindow: [number, number] = [0.5, 3.5];
 
     // const refs = useRef(Array.from({length: animationLength}).map(() => ))
 
@@ -116,22 +116,22 @@ function TimeWarp() {
         yWindow,
         lengthWindow,
         heightWindow
-    )
+    );
 
     useFrame((_, delta) => {
-        delta = Math.min(0.1, delta)
+        delta = Math.min(0.1, delta);
         planes.forEach((p) => {
             if (p.ref.current?.position.z) {
                 if (p.ref.current.position.z > p.length / 2 + 5) {
-                    p.ref.current.position.setZ(-animationLength)
+                    p.ref.current.position.setZ(-animationLength);
                 } else {
                     p.ref.current.position.setZ(
                         p.ref.current.position.z + delta * 30
-                    )
+                    );
                 }
             }
-        })
-    })
+        });
+    });
     return (
         <group>
             {planes.map((p, index) => (
@@ -152,7 +152,7 @@ function TimeWarp() {
                 </Plane>
             ))}
         </group>
-    )
+    );
 }
 
 function genPlanes(
@@ -163,7 +163,7 @@ function genPlanes(
     lWindow: [number, number],
     hWindow: [number, number]
 ) {
-    let planes: Plane[] = []
+    let planes: Plane[] = [];
     for (let i = 0; i < n; i++) {
         let pos = {
             x:
@@ -171,18 +171,18 @@ function genPlanes(
                 alternate(i),
             y: Math.random() * (yWindow * 2) - yWindow,
             z: Math.random() * len * -1 - len,
-        }
-        let height = Math.random() * (hWindow[1] - hWindow[0]) + hWindow[0]
-        let length = Math.random() * (lWindow[1] - lWindow[0]) + lWindow[0]
-        let color = new Color(`hsl(${Math.random() * 40 + 330}, 100%, 55%)`)
-        let ref = createRef<Mesh>()
-        planes.push({ ref, pos, color, height, length })
+        };
+        let height = Math.random() * (hWindow[1] - hWindow[0]) + hWindow[0];
+        let length = Math.random() * (lWindow[1] - lWindow[0]) + lWindow[0];
+        let color = new Color(`hsl(${Math.random() * 40 + 330}, 100%, 55%)`);
+        let ref = createRef<Mesh>();
+        planes.push({ ref, pos, color, height, length });
     }
 
-    return planes
+    return planes;
 }
 
 const alternate = (i: number) => {
-    let n = i % 2
-    return n === 0 ? -1 : 1
-}
+    let n = i % 2;
+    return n === 0 ? -1 : 1;
+};
