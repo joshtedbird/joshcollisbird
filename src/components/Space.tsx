@@ -20,7 +20,7 @@ export function Space() {
     const renderTimeWarp = false;
 
     return (
-        <div className="fixed top-0 left-0 w-full min-w-[500px] min-h-[1000px] h-[100vh] z-0 pointer-events-none select-none bg-black">
+        <div className="fixed top-0 left-0 w-full min-w-[200px] min-h-[400px] h-[100vh] z-0 pointer-events-none select-none bg-black">
             <Canvas>
                 {/* <fogExp2 attach={"fog"} args={["black", 0.04]} /> */}
                 <Environment preset="apartment" environmentIntensity={0.3} />
