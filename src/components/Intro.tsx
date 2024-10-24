@@ -5,21 +5,21 @@ import {
     useInView,
     useScroll,
     useTransform,
-} from "framer-motion"
-import { useRef, useState } from "react"
+} from "framer-motion";
+import { useRef, useState } from "react";
 
 export function Intro() {
-    const scrollRef = useRef(null)!
+    const scrollRef = useRef(null)!;
     const { scrollYProgress } = useScroll({
         target: scrollRef,
-    })
-    const isInView = useInView(scrollRef, { margin: "-100% 0px 0px 0px" })
+    });
+    const isInView = useInView(scrollRef, { margin: "-100% 0px 0px 0px" });
 
     const variants = {
         in: { opacity: 0, transform: "translate(-50%, calc(-50% + 30px))" },
         visible: { opacity: 1, transform: "translate(-50%, -50%)" },
         out: { opacity: 0, transform: "translate(-50%, calc(-50% - 30px))" },
-    }
+    };
 
     return (
         <motion.div
@@ -35,7 +35,7 @@ export function Intro() {
                         exit={"out"}
                         variants={variants}
                         transition={{ duration: 0.6, ease: "easeInOut" }}
-                        className="flex flex-col items-end z-20 fixed top-[50vh] left-[50vw] text-[3.4rem] w-[85%] lg:w-auto"
+                        className="flex flex-col items-end z-20 fixed top-[50vh] left-[50vw] text-[3.3rem] w-[85%] lg:w-auto"
                     >
                         <h1 className=" drop-shadow-lg uppercase font-black  pointer-events-none select-none leading-[3.5rem] ">
                             {"Josh"}
@@ -48,27 +48,27 @@ export function Intro() {
                 )}
             </AnimatePresence>
         </motion.div>
-    )
+    );
 }
 
 interface ListProps {
-    progress: MotionValue<number>
+    progress: MotionValue<number>;
 }
 
 function ScrollingList({ progress }: ListProps) {
-    const list = ["Design", "Dev", "UI/UX", "Geospatial", "3D", ".com"]
-    const step = 1 / list.length
+    const list = ["Design", "Dev", "UI/UX", "Geospatial", "3D", ".com"];
+    const step = 1 / list.length;
 
     const [active, setActive] = useState(
         Math.round(progress.get() / step) * step
-    )
+    );
 
     useTransform(() => {
-        let newProgress = Math.round(progress.get() / step) * step
+        let newProgress = Math.round(progress.get() / step) * step;
         if (newProgress !== active) {
-            setActive(newProgress)
+            setActive(newProgress);
         }
-    })
+    });
 
     return (
         <div
@@ -94,5 +94,5 @@ function ScrollingList({ progress }: ListProps) {
                 ))}
             </motion.div>
         </div>
-    )
+    );
 }

@@ -66,9 +66,11 @@ function Prompt({ children }: PromptProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed bottom-32 left-1/2 translate-x-[-50%] text-white z-40 text-[1.5rem] pointer-events-none select-none"
+            className="fixed w-full bottom-32 left-1/2 translate-x-[-50%] text-white z-40 text-[1.5rem] pointer-events-none select-none"
         >
-            <span className="flex gap-x-3 items-center">{children}</span>
+            <span className="flex gap-x-3 items-center justify-center">
+                {children}
+            </span>
         </motion.div>
     );
 }
