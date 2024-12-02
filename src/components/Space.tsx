@@ -5,7 +5,7 @@ import { Mesh, Color } from "three";
 // import { StarField } from "./StarField"
 import { StarField } from "./StarField_v2";
 import { Joshtronaut } from "./Joshtronaut";
-import { Environment, Plane } from "@react-three/drei";
+import { Plane } from "@react-three/drei";
 
 export function Space() {
     // const { progress } = useProgress()
