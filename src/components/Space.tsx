@@ -23,7 +23,10 @@ export function Space() {
         <div className="fixed top-0 left-0 w-full min-w-[200px] min-h-[400px] h-[100vh] z-0 pointer-events-none select-none bg-black">
             <Canvas>
                 {/* <fogExp2 attach={"fog"} args={["black", 0.04]} /> */}
-                <Environment preset="apartment" environmentIntensity={0.3} />
+                <Environment
+                    files="src/assets/studio_small_09_2k.exr"
+                    environmentIntensity={0.3}
+                />
                 <directionalLight position={[5, 2, 1]} intensity={5} />
                 <Suspense fallback={null}>
                     <Physics gravity={[0, 0, 0]}>
